@@ -69,10 +69,10 @@
         foundList.found = [];
         foundList.menuList = [];
 
-        foundList.showFound = function() {
-            console.log("found: " + foundList.found.length);
-            console.log("menu: " + foundList.menuList.length);
-        }
+        // foundList.showFound = function() {
+        //     console.log("found: " + foundList.found.length);
+        //     console.log("menu: " + foundList.menuList.length);
+        // }
 
         foundList.searchMenu = function(searchTerm) {
             // console.log(searchTerm);
