@@ -19,10 +19,14 @@
     <div class="form-group narrow-button">
       <button class="btn btn-primary" ng-click="foundList.searchMenu(foundList.searchTerm)">Narrow It Down For Me!</button>
     </div>
-
+    <div class="form-group narrow-button">
+      <button class="btn btn-primary" ng-click="foundList.showFound()">showfound!</button>
+    </div>
+    
     <found-items 
       class="col-lg-12"
       found="foundList.found" 
+      menu-list="foundList.menuList"
       on-remove="foundList.removeItem(index)"></found-items>
   </div>
 
