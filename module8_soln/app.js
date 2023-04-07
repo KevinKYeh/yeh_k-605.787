@@ -11,19 +11,54 @@
             templateUrl:"foundItems.html",
             scope: {
                 found: '<',
+                menuList: '<',
                 onRemove: '&'
             },
             controller: FoundItemsDirectiveController,
             controllerAs: 'foundList',
-            bindToController: true
+            bindToController: true,
+            link: FoundItemsDirectiveLink
         };
 
         return ddo;
     }
 
-    function FoundItemsDirectiveController() {
-        var list = this;
+    function FoundItemsDirectiveLink(scope, element, attrs, controller) {
+
+        scope.$watch('foundList.noSearch()', function (newValue, oldValue) {
         
+            if (newValue === true) {
+              displayNothingFound();
+            }
+            else {
+              removeNothingFound();
+            }
+        
+          });
+
+          function displayNothingFound() {
+            var warningElem = element.find("div.error");
+            warningElem.slideDown(250);
+        }
+    
+        function removeNothingFound() {
+            var warningElem = element.find("div.error");
+            warningElem.slideUp(250);
+        }
+    }
+
+   
+
+    function FoundItemsDirectiveController() {
+        var foundList = this;
+
+        foundList.noSearch = function (){
+
+            if (foundList.menuList.length === foundList.found.length || foundList.found.length === 0) {
+                return true;
+            }
+            return false;
+        }
     }
 
     NarrowItDownController.$inject['MenuSearchService'];
@@ -32,6 +67,12 @@
 
         foundList.searchTerm="";
         foundList.found = [];
+        foundList.menuList = [];
+
+        foundList.showFound = function() {
+            console.log("found: " + foundList.found.length);
+            console.log("menu: " + foundList.menuList.length);
+        }
 
         foundList.searchMenu = function(searchTerm) {
             // console.log(searchTerm);
@@ -39,8 +80,8 @@
             var promise = MenuSearchService.getMenu();
 
             promise.then(function (response) {
-                console.log(response.data);
-                foundList.found = MenuSearchService.getMatchedItems(response.data, searchTerm);
+                foundList.menuList = MenuSearchService.createMenuList(response.data);
+                foundList.found = MenuSearchService.getMatchedItems(foundList.menuList, searchTerm);
             })
             .catch(function(error) {
                 console.log("promise error");
@@ -60,7 +101,7 @@
         var found = [];
 
         service.removeItem = function(itemIndex, found) {
-            console.log("splicing index " + itemIndex);
+            // console.log("splicing index " + itemIndex);
             found.splice(itemIndex, 1);
             return found;
         }
@@ -80,16 +121,33 @@
             return response;
         }
 
-        service.getMatchedItems = function (menu, searchTerm) {
-
-            var found = [];
-
-            // construct menu list
-            for(var cat in menu) {
+        service.createMenuList = function(menu) {
+             // construct menu list
+             for(var cat in menu) {
                 for(var item in menu[cat].menu_items) {
                     // console.log(menu[cat].menu_items[item]);
                     menuList.push(menu[cat].menu_items[item]);
                 }
+            }
+            // console.log("returning menuList of length " + menuList.length);
+            return menuList;
+        }
+
+        service.getMatchedItems = function (menuList, searchTerm) {
+
+            var found = [];
+
+            // // construct menu list
+            // for(var cat in menu) {
+            //     for(var item in menu[cat].menu_items) {
+            //         // console.log(menu[cat].menu_items[item]);
+            //         menuList.push(menu[cat].menu_items[item]);
+            //     }
+            // }
+
+            // return empty list if search term empty
+            if  (searchTerm === "") {
+                return found;
             }
 
             console.log(menuList.length + " total items in menu");
