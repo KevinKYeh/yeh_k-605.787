@@ -1,0 +1,26 @@
+<div class="container">
+
+  <div ng-if="myInfoCtrl.user.firstname == null">
+    <h2 id="menu-categories-title" class="text-center">Not signed up yet! <a ui-sref="public.sign-up">Sign up for our newsletter!</a></h2>
+    
+  </div>
+  <div ng-if="myInfoCtrl.user.firstname != null">
+    <h3>{{myInfoCtrl.user.firstname}} {{myInfoCtrl.user.lastname}}</h3>
+    {{myInfoCtrl.user.email}} 
+    <br>{{myInfoCtrl.user.phone}}
+
+    <h2>Favorite dish:</h2>
+    <div class="row">
+      <div class="col-sm-5">
+        <div class="menu-item-photo">
+          <div>{{myInfoCtrl.user.dishInfo.short_name}}</div>
+          <img class="img-responsive" width="250" height="150" ng-src="images/menu/{{myInfoCtrl.user.dishCat}}/{{myInfoCtrl.user.dishInfo.short_name}}.jpg" alt="{{myInfoCtrl.user.dishInfo.name}}">
+        </div>
+      </div>
+      <div class="menu-item-description col-sm-7">
+        <h3 class="menu-item-title">{{myInfoCtrl.user.dishInfo.name}}</h3>
+        <p class="menu-item-details">{{myInfoCtrl.user.dishInfo.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>
