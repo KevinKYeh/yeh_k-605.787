@@ -9,7 +9,6 @@
         required
         minlength="1"
         ng-maxlength="30">
-        {{ signUpCtrl.user.firstname }}
         <span
           ng-if="(signUpForm.firstname.$error.minlength || signUpForm.firstname.$error.required) && signUpForm.firstname.$touched">
           First name must be at least 1 character long
@@ -24,7 +23,6 @@
         required
         minlength="1"
         ng-maxlength="30">
-        {{ signUpCtrl.user.lastname }}
         <span
           ng-if="(signUpForm.lastname.$error.minlength || signUpForm.lastname.$error.required) && signUpForm.lastname.$touched">
           Last name must be at least 1 character long
