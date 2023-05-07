@@ -1,0 +1,76 @@
+<div class="container">
+  <h2 id="menu-categories-title" class="text-center">Sign up for our newsletter!</h2>
+  <!-- <fieldset> -->
+
+    <form name='signUpForm' id="sign-up" novalidate>
+
+      <input type="text" name="firstname" placeholder="First name"
+        ng-model="signUpCtrl.user.firstname"
+        required
+        minlength="1"
+        ng-maxlength="30">
+        {{ signUpCtrl.user.firstname }}
+        <span
+          ng-if="(signUpForm.firstname.$error.minlength || signUpForm.firstname.$error.required) && signUpForm.firstname.$touched">
+          First name must be at least 1 character long
+        </span>
+        <span ng-if="signUpForm.firstname.$error.maxlength && signUpForm.firstname.$touched">
+          First name must not be longer than 30 characters
+        </span>
+        <br>
+
+      <input type="text" name="lastname" placeholder="Last name"
+        ng-model="signUpCtrl.user.lastname"
+        required
+        minlength="1"
+        ng-maxlength="30">
+        {{ signUpCtrl.user.lastname }}
+        <span
+          ng-if="(signUpForm.lastname.$error.minlength || signUpForm.lastname.$error.required) && signUpForm.lastname.$touched">
+          Last name must be at least 1 character long
+        </span>
+        <span ng-if="signUpForm.lastname.$error.maxlength && signUpForm.lastname.$touched">
+          Last name must not be longer than 30 characters
+        </span>
+        <br>
+
+      <input type="email" name="email" placeholder="Email"
+        ng-model="signUpCtrl.user.email"
+        required>
+        <span ng-if="signUpForm.email.$invalid && signUpForm.email.$touched">
+          Must be a valid email address: handle@domain format
+        </span>
+        <br>
+
+      <input type="text" name="phone" placeholder="Phone ###-###-####"
+        ng-model="signUpCtrl.user.phone"
+        pattern="(\d{3})-(\d{3})-(\d{4})">
+        <span ng-if="signUpForm.phone.$invalid && signUpForm.phone.$touched">
+          Phone must be in the format ###-###-####.
+        </span>
+        <br>
+
+      <input type="text" name="dish" placeholder="Favorite dish"
+      ng-model="signUpCtrl.user.dish"
+      ng-blur="signUpCtrl.checkUserDish()"> 
+      <span ng-if="!signUpCtrl.user.validDish"> (click in & out of input box to refresh validation)</span>
+      <br>
+
+      <button
+        ng-disabled="signUpForm.$invalid || !signUpCtrl.user.validDish"
+        ng-click="signUpCtrl.submit()">Submit</button>
+
+      <div style="margin-top: 10px;" ng-if="!signUpCtrl.user.validDish && signUpForm.dish.$touched">
+        {{ signUpCtrl.user.dish }} is not a valid dish!
+      </div>
+      <div style="margin-top: 10px;">
+        Note: valid dish is re-verified after clicking in and out of form.
+      </div>
+
+      <div style="margin-top: 10px;" ng-if="signUpCtrl.completed">
+        Your information has been saved!
+      </div>
+    </form>
+  <!-- </fieldset> -->
+
+</div>
